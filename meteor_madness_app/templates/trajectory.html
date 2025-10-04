@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Trajectory Dashboard{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        <label for="smaxis">Semi Major Axis</label>
+        <input type="range" id="smaxis" name="smaxis">
+        <label for="ecc">Eccentricity</label>
+        <input type="range" id="ecc" name="ecc">
+        <label for="argp">Argument of Periapsis</label>
+        <input type="range" id="argp" name="argp">
+        <label for="lasc">longitude of the Asending Node</label>
+        <input type="range" id="lasc" name="lasc">
+        <label for="inc">Inclination</label>
+        <input type="range" id="inc" name="inc">
+        <label for="nu">True Anomaly</label>
+        <input type="range" id="nu" name="nu">
+        <input type="submit" value="Map Trajectory">
+    </form>
+{% endblock %}
