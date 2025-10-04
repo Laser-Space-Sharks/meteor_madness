@@ -4,5 +4,8 @@
 __pycache__/
 *.py[codz]
 *.class
+
+# Virtual environment stuff
 venv/
 _venv/
+.venv/
