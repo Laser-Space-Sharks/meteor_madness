@@ -1,6 +1,9 @@
 import os
+import sys
+from pathlib import Path
 
-from flask import Flask
+from flask import Flask, session
+from flask_session import Session
 from jinja2 import Template
 import numpy as np
 
@@ -11,6 +14,9 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    app.config["SESSION_PERMANENT"] = False     # Sessions expire when the browser is closed
+    app.config["SESSION_TYPE"] = "filesystem"
+    Session(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

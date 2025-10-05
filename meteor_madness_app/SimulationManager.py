@@ -2,7 +2,9 @@ import os
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+# from ..kepler import KeplerElement
 
+# to delete when Lorenzo functions complete
 import numpy as np
 from PIL import Image
 import plotly.graph_objects as go
@@ -100,7 +102,6 @@ def trajectory():
 
     return render_template('SimulationManager/trajectory.html', trajectory_plot=fig.to_html(full_html=False))
 
-# def plotData():
-#     exec(open("../plotly_plotting.py").read())
-#     plot_data = {"trajectory_plot":fig.to_html(full_html=False)}
-#     return render_template('SimulationManager/trajectory.html', trajectory_plot=plot_data)
+@bp.route('/impact', methods=('GET', 'POST'))
+def impact():
+    return render_template('SimulationManager/impact.html')
