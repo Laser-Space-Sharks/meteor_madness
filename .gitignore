@@ -2,6 +2,7 @@
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*__pycache__/
 *.py[codz]
 *.class
 
@@ -9,3 +10,15 @@ __pycache__/
 venv/
 _venv/
 .venv/
+
+# Flask reccomendations
+*.pyc
+instance/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+meteor_madness_app/config.py
+

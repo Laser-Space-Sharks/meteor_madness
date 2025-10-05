@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Trajectory Dashboard{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <table> 
+    <tr>
+        <td style="width: 100vw;">
+          <div id="trajectory_visualizer" name="trajectory_visualizer">
+            {{ trajectory_plot|safe }}
+          </div>
+        </td>
+        <td style="width: 25vw;">
+            <form method="post">
+                <label for="smaxis">Semi Major Axis</label>
+                <p></p>
+                <input type="range" id="smaxis" name="smaxis">
+                <p></p>
+                <label for="ecc">Eccentricity</label>
+                <p></p>
+                <input type="range" id="ecc" name="ecc">
+                <p></p>
+                <label for="argp">Argument of Periapsis</label>
+                <p></p>
+                <input type="range" id="argp" name="argp">
+                <p></p>
+                <label for="lasc">longitude of the Asending Node</label>
+                <p></p>
+                <input type="range" id="lasc" name="lasc">
+                <p></p>
+                <label for="inc">Inclination</label>
+                <p></p>
+                <input type="range" id="inc" name="inc">
+                <p></p>
+                <label for="nu">True Anomaly</label>
+                <p></p>
+                <input type="range" id="nu" name="nu">
+                <p></p>
+                <input type="submit" value="Map Trajectory">
+            </form>
+        </td>
+    </tr>
+</table>
+{% endblock %}
