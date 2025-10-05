@@ -13,11 +13,13 @@ def calcEvacCost(pop, daysAway, onLand):
 
 @bp.route('/mitigation', methods=('GET', 'POST'))
 def mitigation():
+    defaultDaysAway = 40
+    # evac_cost_calc = calcEvacCost(session['affected_pop', defaultDaysAway, onLand])
 
     # if error is None:
     #     return render_template('action/mitigation.html')
     # else:
     #     flash(error)
 
-    return render_template('action/mitigation.html')
+    return render_template('action/mitigation.html', evac_cost=evac_cost_calc)
 
