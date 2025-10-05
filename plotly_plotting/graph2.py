@@ -54,18 +54,13 @@ x, y, z = sphere(radius, int(texture_fixed.shape[1]))
 
 # Some radius given from website, picking random value for now
 surf = go.Surface(x = x, y = y, z = z, surfacecolor = texture_fixed, colorscale = colorscale, showscale = False)
-point = go.Scatter3d(x = [7400], y = [0], z = [0], mode = "markers", marker = dict(size = 5, color = "grey"))
+point = go.Scatter3d(x = [10000], y = [0], z = [0], mode = "markers", marker = dict(size = 5, color = "grey"))
 
 # Trace 2: The trail (a line)
-line = go.Scatter3d(x = [], y = [], z = [], mode = "lines", line = dict(color = ["#fab387"], width = 3))
+line = go.Scatter3d(x = [], y = [], z = [], mode = "lines", line = dict(color = "#FAB387", width = 3))
 
 layout = go.Layout(
     scene = dict(aspectmode = "data"), 
-    #scene=dict(
-    #    xaxis = dict(range = [-8000, 8000]),
-    #    yaxis = dict(range = [-7000, 7000]),
-    #    zaxis = dict(range = [-7000, 7000])
-    #),
     updatemenus = [dict(
         type = "buttons", 
         showactive = False, 
@@ -98,8 +93,9 @@ layout = go.Layout(
     
 fig = go.Figure(data = [surf, point, line], layout = layout)
 
-frames = [go.Frame(traces = [1],
-    data = [go.Scatter3d(x = [x[k]]), go.Scatter3d(x = x[:k - 100])]) for k in range(10)
+frames = [go.Frame(traces = [1, 2],
+    data = [go.Scatter3d(x = [10000 - k*100], y = [0], z = [0]), go.Scatter3d(x = np.linspace(10000, 10000-k*100, 100), y = np.zeros(100),
+                                                                           z = np.zeros(100))]) for k in range(100)
 ]
 
 #Colors the surroundings to be dark and hides grid lines
