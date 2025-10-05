@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 import numpy as np
 from PIL import Image
-#from ..kepler.py import *
+import kepler as kp
 
 # Color scale that convers our greyscale image into a colored image of the earth
 colorscale =[
@@ -28,8 +28,8 @@ c = len(texture[0])
 #High definition image
 #texture = np.asarray(Image.open("earth.jpeg")).T
 
-#impact_conic = conic_from_impact(40.7128, -74.0068, np.array([3, 12, -2]), G*Me, 1000)
-
+impact_conic = kp.conic_from_impact(40.7128, -74.0068, np.array([3, 12, -2]), kp.G*kp.Me, 1000)
+print(impact_conic[0][0])
 
 texture_fixed = np.empty((r, c))
 for i in range(r):
@@ -94,13 +94,13 @@ layout = go.Layout(
 fig = go.Figure(data = [surf, point, line], layout = layout)
 
 frames = [go.Frame(traces = [1, 2],
-    data = [go.Scatter3d(x = [10000 - k*100], y = [0], z = [0]), go.Scatter3d(x = np.linspace(10000, 10000-k*100, 100), y = np.zeros(100),
-                                                                           z = np.zeros(100))]) for k in range(100)
+    data = [go.Scatter3d(x = impact_conic[0], y = impact_conic[1], z = impact_conic[2]), 
+            go.Scatter3d(x = np.linspace(10000, 10000-k*100, 100), y = np.zeros(100), z = np.zeros(100))]) for k in range(100)
 ]
 
 #Colors the surroundings to be dark and hides grid lines
 fig.update_layout(template = "plotly_dark")
-'''fig.update_scenes(
+fig.update_scenes(
     xaxis_showgrid = False,
     xaxis_visible  = False,
     yaxis_showgrid = False,
@@ -108,7 +108,7 @@ fig.update_layout(template = "plotly_dark")
     zaxis_showgrid = False,
     zaxis_visible  = False
 )
-'''
 
 fig.frames = frames
 fig.show()
+
