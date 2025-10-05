@@ -4,8 +4,8 @@ from flask import (
 
 bp = Blueprint('SimulationManager', __name__, url_prefix='/SimulationManager')
 
-@bp.route('/keplerian_params', methods=('GET', 'POST'))
-def keplerian_params():
+@bp.route('/trajectory', methods=('GET', 'POST'))
+def trajectory():
     if request.method == 'POST':
         smaxis = request.form['smaxis']
         ecc = request.form['ecc']

@@ -3,11 +3,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 <nav>
-    <h1>Meteor Madness!</h1>
     <ul>
-        <li><a href="{{ url_for('trajectory')}}">Trajectory Dashboard</a></li>
-        <li><a href="{{ url_for('impact')}}">Impact Visualizer</a></li>
-        <li><a href="{{ url_for('action')}}">Action Dashboard</a></li>
+        <li>Meteor Madness!</li>
+        <li><a href="{{ url_for('SimulationManager.trajectory')}}">Trajectory Dashboard</a></li>
     </ul>
 </nav>
 
