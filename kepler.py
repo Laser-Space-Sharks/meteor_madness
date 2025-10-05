@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 from scipy.spatial.transform import Rotation
 
-# constants in MKS
+# constants in KKS
 G = 6.674e-20
 Me = 5.972e24
 Re = 6378
@@ -22,14 +22,12 @@ class CartesianElement:
 @dataclass
 class KeplerElement:
     sma:    np.float64   # semi-major axis
-    ecc:      np.float64   # eccentricity
+    ecc:    np.float64   # eccentricity
     argp:   np.float64   # argument of periapsis
     lasc:   np.float64   # longitude of the ascending node
     inc:    np.float64   # inclination
     nu:     np.float64   # true anomaly
     mu:     np.float64   # standard gravitational parameter
-
-# Earth J2000
 
 
 def cart2kepler(c: CartesianElement) -> KeplerElement:
@@ -162,9 +160,17 @@ def kepler_conic(k: KeplerElement, samples):
 
     return (xs, ys, zs)
 
+def latlon_from_cartesian(r: np.ndarray):
+    rhat = r/np.linalg.norm(r)
+    lat = math.pi/math.acos(rhat[2])
+    rflat = r
+    rflat[2] = 0
+    rflathat = rflat/np.linalg.norm(rflat)
+    lon = math.atan2(rflathat[1], rflathat[0])
+    return (lat, lon)
 
 def main() -> None:
-    impact_conic = conic_from_impact(40.7128, -74.0068, np.array([3, 12, -2]),
+    impact_conic = conic_from_impact(40.7128, -74.0060, np.array([3, 12, -2]),
                                      G*Me, 1000)
 
     # Solve for the Kepler orbit from r_init and v_init
@@ -191,7 +197,6 @@ def main() -> None:
     #    print(impact_conic[0])
     ax.plot(impact_conic[0], impact_conic[1], impact_conic[2])
     ax.plot(impact_conic[0][-1], impact_conic[1][-1], impact_conic[2][-1], c="r", marker='o')
-    print(impact_conic[2][-1])
 
     ax.set_aspect('equal')
     plt.show()
