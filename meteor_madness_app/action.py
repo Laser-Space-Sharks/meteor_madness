@@ -14,10 +14,10 @@ def calcEvacCost(pop, daysAway, onLand):
 @bp.route('/mitigation', methods=('GET', 'POST'))
 def mitigation():
 
-    if error is None:
-            return render_template('action/mitigation.html')
-        else:
-            flash(error)
+    # if error is None:
+    #     return render_template('action/mitigation.html')
+    # else:
+    #     flash(error)
 
     return render_template('action/mitigation.html')
 
