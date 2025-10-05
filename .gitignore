@@ -21,4 +21,5 @@ dist/
 build/
 *.egg-info/
 meteor_madness_app/config.py
+flask_session
 
