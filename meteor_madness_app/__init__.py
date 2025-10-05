@@ -31,6 +31,8 @@ def create_app(test_config=None):
         return 'Hello, World!'
     
     from . import SimulationManager
+    from . import action
     app.register_blueprint(SimulationManager.bp)
+    app.register_blueprint(action.bp)
 
     return app
