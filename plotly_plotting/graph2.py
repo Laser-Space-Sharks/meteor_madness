@@ -24,8 +24,10 @@ radius = 6378.1
 
 try:
     texture = np.asarray(Image.open("earth4.jpeg"))
+    bg = Image.open("stars.jpeg")
 except:
     texture = np.asarray(Image.open("plotly_plotting/earth4.jpeg"))
+    bg = Image.open("plotly_plotting/stars.jpeg")
 
 r = len(texture)
 c = len(texture[0])
@@ -34,10 +36,10 @@ for i in range(r):
     for j in range(c):
         texture_fixed[i][j] = int(texture[i][j][0])
 texture_fixed = texture_fixed.T
-#High definition image
-#texture = np.asarray(Image.open("earth.jpeg")).T
+# High definition image
+#texture_fixed = np.asarray(Image.open("earth1.jpeg")).T
 
-#Function that maps our textured image to a sphere
+# Function that maps our textured image to a sphere
 def sphere(size, resolution): 
     theta = np.linspace(0, 2*np.pi, 2*resolution)
     phi   = np.linspace(0,   np.pi,   resolution)
@@ -49,8 +51,17 @@ def sphere(size, resolution):
     return x0,y0,z0
 
 x, y, z = sphere(radius, int(texture_fixed.shape[1]))
-#
-surf = go.Surface(x = x, y = y, z = z, surfacecolor = texture_fixed, colorscale = colorscale, showscale = False)
+
+# 90 degree ccw rotation
+#x_rotated = -y
+#y_rotated = x
+
+rad = 47*np.pi/180
+# rad ccw rotation on z axis
+x_rotated = x * np.cos(rad) - y * np.sin(rad)
+y_rotated = x * np.sin(rad) + y * np.cos(rad)
+
+surf = go.Surface(x = x_rotated, y = y_rotated, z = z, surfacecolor = texture_fixed, colorscale = colorscale, showscale = False)
 
 # Trace 2: The trail left by the asteroid
 line = go.Scatter3d(x = [], y = [], z = [], mode = "lines", line = dict(color = "#FAB387", width = 3))
@@ -99,6 +110,27 @@ def graph_conic(impact_conic):
                 go.Scatter3d(x = impact_conic[0][:k+1],y = impact_conic[1][:k+1], z = impact_conic[2][:k+1])]) for k in range(length)
     ]
 
+    fig.add_layout_image(
+        dict(
+            source=bg,
+            xref="x",  # or "paper"
+            yref="y",  # or "paper"
+            x=-1,       # X position of the image
+            y=4,       # Y position of the image
+            sizex=8,   # X size of the image
+            sizey=5,   # Y size of the image
+            sizing="stretch", # or "fill" or "contain"
+            opacity=0.5,
+            layer = "below",
+        )
+    )
+    fig.update_layout(
+        xaxis_showgrid = False,
+        xaxis_visible  = False,
+        yaxis_showgrid = False,
+        yaxis_visible  = False,
+    )
+
     #Colors the surroundings to be dark and hides grid lines
     fig.update_layout(template = "plotly_dark")
     fig.update_scenes(
@@ -113,6 +145,6 @@ def graph_conic(impact_conic):
 
     return(fig)
 
-
+# Test to check if it hits NY, roughly...
 #fig = graph_conic(conic_from_impact(40.7128, -74.0068, np.array([3, 12, -2]), G*Me, 1000))
 #fig.show()
