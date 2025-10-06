@@ -30,7 +30,7 @@ class KeplerElement:
     mu:     np.float64   # standard gravitational parameter
 
 
-KEPLER_DEFAULT = KeplerElement(
+KEPLER_DEFAULT = (
     -12448.799216310952,
     1.5051654574733837,
     4.380587051837244,
