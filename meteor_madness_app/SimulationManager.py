@@ -58,7 +58,15 @@ def trajectory():
         if float(ecc) > 1 and smaxis > 0:
             smaxis = -smaxis
 
-        fig = generate_graph(float(smaxis), float(ecc), radians(float(argp)), radians(float(lasc)), radians(float(inc)), radians(float(nu)), radians(float(mu)))
+        fig = generate_graph(
+            float(smaxis), 
+            float(ecc), 
+            radians(float(argp)), 
+            radians(float(lasc)), 
+            radians(float(inc)), 
+            radians(float(nu)), 
+            radians(float(mu))
+        )
 
         if error is None:
             return render_template('SimulationManager/trajectory.html', trajectory_plot=fig.to_html(full_html=False))
@@ -69,5 +77,11 @@ def trajectory():
 
 @bp.route('/impact', methods=('GET', 'POST'))
 def impact():
-    # return ender_template('SimulationManager/impact.html, latlon=session.get('latlon)')
-    return render_template('SimulationManager/impact.html')
+    print(session.get('latlon')[0], session.get('latlon'))
+    return render_template('SimulationManager/impact.html', 
+        lat=session.get('latlon')[0], 
+        lon=session.get('latlon')[1],
+        deathzone=50000,
+        evac_zone=100000,
+        crater=500,
+    )

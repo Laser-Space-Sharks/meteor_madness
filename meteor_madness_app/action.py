@@ -21,5 +21,6 @@ def mitigation():
     # else:
     #     flash(error)
 
-    return render_template('action/mitigation.html', evac_cost=evac_cost_calc)
+    # return render_template('action/mitigation.html', evac_cost=evac_cost_calc)
+    return render_template('action/mitigation.html')
 

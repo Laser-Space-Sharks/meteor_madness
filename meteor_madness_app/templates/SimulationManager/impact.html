@@ -8,16 +8,31 @@
 <table>
     <div id="map" style="height: 80vh; width:65vw"></div>
     <script>
-        {# var map = L.map('map').setView(['{{ latlon|safe }}'], 13); #}
-        var map = L.map('map').setView([51.505, -0.09], 7);
+        var map = L.map('map').setView([{{ lat|safe }}, {{ lon|safe }}], 7);
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19,
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
-        var circle = L.circle([51.508, -0.11], {
+        
+        // impact circles
+        var circle = L.circle([{{ lat|safe }}, {{ lon|safe }}], {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 50000
+            radius: {{ deathzone|safe }}
+        }).addTo(map);
+
+        var circle = L.circle([{{ lat|safe }}, {{ lon|safe }}], {
+            color: 'yellow',
+            fillColor: '#f9e2af',
+            fillOpacity: 0.5,
+            radius: {{ evac_zone|safe }}
+        }).addTo(map);
+
+        var circle = L.circle([{{ lat|safe }}, {{ lon|safe }}], {
+            color: 'black',
+            fillColor: '#181825',
+            fillOpacity: 0.5,
+            radius: {{ crater|safe }}
         }).addTo(map);
     </script>
 </table>
