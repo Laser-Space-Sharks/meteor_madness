@@ -10,7 +10,7 @@ import numpy as np
 sys.path.insert(1, './kepler')
 sys.path.insert(2, './plotly_plotting')
 from kepler import KeplerElement
-from graph2 import graph_conic
+# from graph2 import graph_conic
 
 def create_app(test_config=None):
     # create and configure the app

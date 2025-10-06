@@ -1,16 +1,38 @@
 import os
+import numpy as np
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 import kepler
 from graph2 import graph_conic
+from math import radians
 
 bp = Blueprint('SimulationManager', __name__, url_prefix='/SimulationManager')
 
+def generate_graph(smaxis, ecc, argp, lasc, inc, nu, mu):
+    session['keplerian_params'] = kepler.KeplerElement(
+        smaxis,
+        ecc, 
+        argp, 
+        lasc, 
+        inc, 
+        nu, 
+        mu)
+    session['data'] = kepler.kepler_conic(session.get('keplerian_params'), 500)
+    session['latlon'] = kepler.latlon_from_cartesian(
+        np.array([session.get('data')[0][-1], 
+        session.get('data')[1][-1],
+        session.get('data')[2][-1]])
+    )
+    return graph_conic(session.get('data'))
+
 @bp.route('/trajectory', methods=('GET', 'POST'))
 def trajectory():
+    smaxis, ecc, argp, lasc, inc, nu, mu = kepler.KEPLER_DEFAULT
+    fig = generate_graph(smaxis, ecc, argp, lasc, inc, nu, mu)
+
     if request.method == 'POST':
-        smaxis = request.form['smaxis']
+        smaxis = float(request.form['smaxis'])
         ecc = request.form['ecc']
         argp = request.form['argp']
         lasc = request.form['lasc']
@@ -33,17 +55,11 @@ def trajectory():
         elif not nu:
             error = 'nu is required.'
         
-        session['keplerian_params'] = kepler.KeplerElement(
-            smaxis,
-            ecc, 
-            argp, 
-            lasc, 
-            inc, 
-            nu, 
-            kepler.g * kepler.Me)
-        session['data'] = kepler.kepler_conic(session.get('keplerian_params'), 500)
-        fig = graph_conic(session.get('data'))
-        
+        if float(ecc) > 1 and smaxis > 0:
+            smaxis = -smaxis
+
+        fig = generate_graph(float(smaxis), float(ecc), radians(float(argp)), radians(float(lasc)), radians(float(inc)), radians(float(nu)), radians(float(mu)))
+
         if error is None:
             return render_template('SimulationManager/trajectory.html', trajectory_plot=fig.to_html(full_html=False))
         else:
@@ -53,4 +69,5 @@ def trajectory():
 
 @bp.route('/impact', methods=('GET', 'POST'))
 def impact():
+    # return ender_template('SimulationManager/impact.html, latlon=session.get('latlon)')
     return render_template('SimulationManager/impact.html')
