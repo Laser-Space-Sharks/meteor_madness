@@ -128,9 +128,9 @@ def conic_from_impact(lat: np.float32, lon: np.float32, v: np.ndarray, mu, sampl
     if kepler.ecc < 1:
         min_anomaly = -2*math.pi
     else:
-        min_anomaly = 15/16*math.acos(-1/kepler.ecc)
+        min_anomaly = -15/16*math.acos(-1/kepler.ecc)
 
-    anomalies = np.linspace(kepler.nu, min_anomaly, samples)
+    anomalies = np.linspace(min_anomaly, kepler.nu, samples)
     xs = np.empty(samples)
     ys = np.empty(samples)
     zs = np.empty(samples)
@@ -139,11 +139,11 @@ def conic_from_impact(lat: np.float32, lon: np.float32, v: np.ndarray, mu, sampl
         new_kep = kepler
         new_kep.nu = anomalies[i]
         point = kepler2cart(new_kep)
-        xs[samples-1 - i] = point.r[0]
-        ys[samples-1 - i] = point.r[1]
-        zs[samples-1 - i] = point.r[2]
+        xs[i] = point.r[0]
+        ys[i] = point.r[1]
+        zs[i] = point.r[2]
 
-    return (xs, ys, zs)
+    return (xs, ys, zs, np.linalg.norm(kepler2cart(kepler).v))
 
 
 def kepler_conic(k: KeplerElement, samples):
