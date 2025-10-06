@@ -155,12 +155,14 @@ def kepler_conic(k: KeplerElement, samples):
     xs = np.empty(samples)
     ys = np.empty(samples)
     zs = np.empty(samples)
+    impacts = False
     i = 0
     while i < samples:
         new_k = k
         new_k.nu = anomalies[i]
         point = kepler2cart(new_k)
         if np.dot(point.r, point.r) < Re*Re:
+            impacts = True
             anomalies = np.linspace(-max_anomaly, anomalies[i-1], samples)
             i = 0
             continue
@@ -168,8 +170,11 @@ def kepler_conic(k: KeplerElement, samples):
         ys[i] = point.r[1]
         zs[i] = point.r[2]
         i += 1
+        v = 0
+        if impacts:
+            v = np.linalg.norm(kepler2cart(new_k).v)
 
-    return (xs, ys, zs)
+    return (xs, ys, zs, v)
 
 
 def latlon_from_cartesian(r: np.ndarray):
@@ -185,6 +190,7 @@ def latlon_from_cartesian(r: np.ndarray):
 def main() -> None:
     impact_conic = conic_from_impact(-40.7128, -74.0060, np.array([3, 15, 10]),
                                      G*Me, 500)
+    print(impact_conic[-1])
 
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
