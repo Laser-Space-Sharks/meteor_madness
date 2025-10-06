@@ -30,6 +30,16 @@ class KeplerElement:
     mu:     np.float64   # standard gravitational parameter
 
 
+KEPLER_DEFAULT = KeplerElement(
+    1.5051654574733837,
+    4.380587051837244,
+    1.1390200269029194,
+    2.4252340740654765,
+    0.21630341652911592,
+    G*Me
+)
+
+
 def cart2kepler(c: CartesianElement) -> KeplerElement:
     rmag = np.linalg.norm(c.r)
 
@@ -126,6 +136,13 @@ def conic_from_impact(lat: np.float32, lon: np.float32, v: np.ndarray, mu, sampl
     else:
         min_anomaly = 15/16*math.acos(-1/kepler.ecc)
 
+    print(kepler.sma)
+    print(kepler.ecc)
+    print(kepler.argp)
+    print(kepler.lasc)
+    print(kepler.inc)
+    print(kepler.nu)
+    print(kepler.mu)
     anomalies = np.linspace(min_anomaly, kepler.nu, samples)
     xs = np.empty(samples)
     ys = np.empty(samples)
@@ -160,6 +177,7 @@ def kepler_conic(k: KeplerElement, samples):
 
     return (xs, ys, zs)
 
+
 def latlon_from_cartesian(r: np.ndarray):
     rhat = r/np.linalg.norm(r)
     lat = math.pi/math.acos(rhat[2])
@@ -168,6 +186,7 @@ def latlon_from_cartesian(r: np.ndarray):
     rflathat = rflat/np.linalg.norm(rflat)
     lon = math.atan2(rflathat[1], rflathat[0])
     return (lat, lon)
+
 
 def main() -> None:
     impact_conic = conic_from_impact(40.7128, -74.0060, np.array([3, 12, -2]),
