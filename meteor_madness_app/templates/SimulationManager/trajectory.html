@@ -7,7 +7,7 @@
 {% block content %}
   <table> 
     <tr>
-        <td style="width: 100vw;">
+        <td style="width: 70vw;">
           <div id="trajectory_visualizer" name="trajectory_visualizer">
             {{ trajectory_plot|safe }}
           </div>
@@ -16,27 +16,27 @@
             <form method="post">
                 <label for="smaxis">Semi Major Axis</label>
                 <p></p>
-                <input type="range" id="smaxis" name="smaxis">
+                <input type="range" id="smaxis" name="smaxis" min="0">
                 <p></p>
                 <label for="ecc">Eccentricity</label>
                 <p></p>
-                <input type="range" id="ecc" name="ecc">
+                <input type="range" id="ecc" name="ecc" min="0" max="3">
                 <p></p>
                 <label for="argp">Argument of Periapsis</label>
                 <p></p>
-                <input type="range" id="argp" name="argp">
+                <input type="range" id="argp" name="argp" min="0" max="360">
                 <p></p>
                 <label for="lasc">longitude of the Asending Node</label>
                 <p></p>
-                <input type="range" id="lasc" name="lasc">
+                <input type="range" id="lasc" name="lasc" min="0" max="360">
                 <p></p>
                 <label for="inc">Inclination</label>
                 <p></p>
-                <input type="range" id="inc" name="inc">
+                <input type="range" id="inc" name="inc" min="0" max="360">
                 <p></p>
                 <label for="nu">True Anomaly</label>
                 <p></p>
-                <input type="range" id="nu" name="nu">
+                <input type="range" id="nu" name="nu" min="0" max="360">
                 <p></p>
                 <input type="submit" value="Map Trajectory">
             </form>

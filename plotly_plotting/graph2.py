@@ -70,7 +70,7 @@ def graph_conic(impact_conic):
             showactive = False, 
             buttons = [
                 dict(label="Play", method="animate",
-                args=[None, {"frame": {"duration": 500, "redraw": True}, "fromcurrent": True}]),
+                args=[None, {"frame": {"duration": 0, "redraw": True}, "fromcurrent": True}]),
                 dict(label="Pause",method="animate",
                 args=[[None], {"frame": {"duration": 0, "redraw": False}, "mode": "immediate", "transition": {"duration": 0}}])
                 ]
@@ -114,5 +114,5 @@ def graph_conic(impact_conic):
     return(fig)
 
 
-fig = graph_conic(conic_from_impact(40.7128, -74.0068, np.array([3, 12, -2]), G*Me, 1000))
-fig.show()
+#fig = graph_conic(conic_from_impact(40.7128, -74.0068, np.array([3, 12, -2]), G*Me, 1000))
+#fig.show()
