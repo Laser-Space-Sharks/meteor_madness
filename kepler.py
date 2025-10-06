@@ -173,13 +173,14 @@ def kepler_conic(k: KeplerElement, samples):
         new_k = k
         new_k.nu = anomalies[i]
         point = kepler2cart(new_k)
-        if np.dot(point.r, point.r) > Re*Re:
+        if np.dot(point.r, point.r) < Re*Re:
+            anomalies = np.linspace(-max_anomaly, anomalies[i-1], samples)
             i = 0
-            anomalies = np.linspace(-max_anomaly, new_k.nu, samples)
             continue
         xs[i] = point.r[0]
         ys[i] = point.r[1]
         zs[i] = point.r[2]
+        i += 1
 
     return (xs, ys, zs)
 
