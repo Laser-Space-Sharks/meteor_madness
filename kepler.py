@@ -187,11 +187,11 @@ def kepler_conic(k: KeplerElement, samples):
 
 def latlon_from_cartesian(r: np.ndarray):
     rhat = r/np.linalg.norm(r)
-    lat = 90 - 180*math.pi/math.acos(rhat[2])
+    lat = 90 - 180/math.pi * math.acos(rhat[2])
     rflat = r
     rflat[2] = 0
     rflathat = rflat/np.linalg.norm(rflat)
-    lon = 180*math.pi/math.atan2(rflathat[1], rflathat[0])
+    lon = 180/math.pi * math.atan2(rflathat[1], rflathat[0])
     return (lat, lon)
 
 
